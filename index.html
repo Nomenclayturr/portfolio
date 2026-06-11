@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Emmanuel Ademola — Builder. Security-minded. West Texas.</title>
+<meta name="description" content="Emmanuel Ademola — computer science student building at the intersection of software, security, and the open road. Lubbock, TX.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0a08;
+  --bg-soft:#12100c;
+  --ink:#ece7df;
+  --ink-dim:rgba(236,231,223,.55);
+  --ink-faint:rgba(236,231,223,.28);
+  --accent:#ff5a26;
+  --accent-soft:rgba(255,90,38,.14);
+  --line:rgba(236,231,223,.12);
+  --display:'Syne',sans-serif;
+  --body:'Space Grotesk',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--body);overflow-x:hidden}
+body{font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:var(--bg)}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+/* ---------- grain ---------- */
+.grain{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:90;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 8s steps(10) infinite}
+@keyframes grain{
+  0%,100%{transform:translate(0,0)}10%{transform:translate(-5%,-10%)}20%{transform:translate(-15%,5%)}
+  30%{transform:translate(7%,-25%)}40%{transform:translate(-5%,25%)}50%{transform:translate(-15%,10%)}
+  60%{transform:translate(15%,0)}70%{transform:translate(0,15%)}80%{transform:translate(3%,35%)}90%{transform:translate(-10%,10%)}
+}
+
+/* ---------- cursor ---------- */
+.cursor{position:fixed;top:0;left:0;width:12px;height:12px;border-radius:50%;background:var(--accent);
+  pointer-events:none;z-index:100;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .25s;mix-blend-mode:difference}
+.cursor.is-hover{width:56px;height:56px}
+@media (pointer:coarse){.cursor{display:none}}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-content:space-between;align-items:center;
+  padding:22px clamp(20px,4vw,56px);mix-blend-mode:difference}
+.nav__logo{font-family:var(--display);font-weight:800;font-size:18px;letter-spacing:.04em}
+.nav__links{display:flex;gap:clamp(16px,3vw,36px);font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+.nav__links a{position:relative;opacity:.7;transition:opacity .3s}
+.nav__links a:hover{opacity:1}
+.nav__links a::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:1px;background:currentColor;transition:width .3s}
+.nav__links a:hover::after{width:100%}
+@media (max-width:640px){.nav__links{gap:14px;font-size:11px}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 clamp(20px,4vw,56px) clamp(28px,5vh,56px);overflow:hidden}
+.hero__sky{position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(58% 36% at 50% 78%, rgba(255,90,38,.32), transparent 70%),
+    radial-gradient(34% 20% at 50% 80%, rgba(255,158,66,.30), transparent 70%),
+    linear-gradient(180deg,#0b0a08 0%,#0e0b09 55%,#1a0f08 100%)}
+#terrain{position:absolute;inset:0;z-index:1;width:100%;height:100%}
+.hero__fade{position:absolute;left:0;right:0;bottom:0;height:32%;z-index:2;
+  background:linear-gradient(180deg,transparent,var(--bg))}
+.hero__content{position:relative;z-index:3}
+.hero__eyebrow{display:flex;align-items:center;gap:14px;font-size:clamp(11px,1.2vw,13px);letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ink-dim);margin-bottom:clamp(14px,2.5vh,26px)}
+.hero__eyebrow::before{content:"";width:44px;height:1px;background:var(--accent)}
+.hero__title{font-family:var(--display);font-weight:800;line-height:.92;letter-spacing:-.02em;
+  font-size:clamp(34px,9vw,150px);text-transform:uppercase}
+.hero__title .line{display:block;overflow:hidden}
+.hero__title .line span{display:inline-block;white-space:nowrap;will-change:transform}
+.hero__title .accent{color:var(--accent)}
+.hero__meta{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;
+  margin-top:clamp(20px,4vh,40px);padding-top:20px;border-top:1px solid var(--line)}
+.hero__tag{max-width:46ch;font-size:clamp(14px,1.5vw,17px);font-weight:300;color:var(--ink-dim)}
+.hero__tag strong{color:var(--ink);font-weight:500}
+.hero__loc{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);text-align:right;line-height:1.9}
+.hero__scroll{position:absolute;right:clamp(20px,4vw,56px);top:46svh;z-index:3;display:flex;align-items:center;gap:10px;
+  font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-faint);
+  writing-mode:vertical-rl}
+.hero__scroll::after{content:"";width:1px;height:48px;background:linear-gradient(var(--accent),transparent);animation:drip 2s ease-in-out infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@media (max-width:640px){.hero__scroll{display:none}.hero__loc{text-align:left}}
+
+/* ---------- marquee ---------- */
+.marquee{position:relative;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:18px 0;overflow:hidden;background:var(--bg)}
+.marquee__track{display:flex;gap:0;width:max-content;animation:scroll 28s linear infinite}
+.marquee__inner{display:flex;align-items:center;white-space:nowrap;font-family:var(--display);font-weight:700;
+  font-size:clamp(15px,2vw,22px);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim)}
+.marquee__inner span{padding:0 18px}
+.marquee__inner i{font-style:normal;color:var(--accent);padding:0 4px}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- shared section ---------- */
+.section{position:relative;padding:clamp(80px,14vh,160px) clamp(20px,4vw,56px)}
+.section__head{display:flex;align-items:baseline;gap:18px;margin-bottom:clamp(36px,6vh,72px)}
+.section__num{font-size:13px;color:var(--accent);letter-spacing:.1em}
+.section__title{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.01em;
+  font-size:clamp(34px,6vw,76px);line-height:1}
+.wrap{max-width:1280px;margin:0 auto}
+
+/* ---------- about ---------- */
+.about__grid{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(32px,6vw,96px)}
+.about__lede{font-size:clamp(22px,3vw,36px);font-weight:300;line-height:1.35;letter-spacing:-.01em}
+.about__lede em{font-style:normal;color:var(--accent)}
+.about__body{margin-top:28px;color:var(--ink-dim);max-width:58ch;font-weight:300}
+.about__body p+p{margin-top:16px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);height:fit-content}
+.stat{background:var(--bg);padding:clamp(20px,2.5vw,34px);transition:background .4s}
+.stat:hover{background:var(--bg-soft)}
+.stat__num{font-family:var(--display);font-weight:800;font-size:clamp(30px,4vw,52px);color:var(--accent);line-height:1.1}
+.stat__num sup{font-size:.45em;vertical-align:super}
+.stat__label{margin-top:8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim)}
+@media (max-width:880px){.about__grid{grid-template-columns:1fr}}
+
+/* ---------- work ---------- */
+.work{background:var(--bg)}
+.work__list{border-top:1px solid var(--line)}
+.work__item{position:relative;display:grid;grid-template-columns:80px 1.6fr 1fr auto;align-items:center;gap:clamp(14px,2.5vw,40px);
+  padding:clamp(26px,4vh,44px) 8px;border-bottom:1px solid var(--line);cursor:pointer;transition:padding .4s}
+.work__item:hover{padding-left:24px}
+.work__item::before{content:"";position:absolute;inset:0;background:var(--accent-soft);transform:scaleY(0);transform-origin:bottom;
+  transition:transform .45s cubic-bezier(.65,0,.35,1);z-index:-1}
+.work__item:hover::before{transform:scaleY(1)}
+.work__idx{font-size:13px;color:var(--ink-faint);letter-spacing:.1em}
+.work__name{font-family:var(--display);font-weight:700;font-size:clamp(22px,3.4vw,44px);line-height:1.05;letter-spacing:-.01em;
+  transition:color .3s}
+.work__item:hover .work__name{color:var(--accent)}
+.work__desc{font-size:14px;font-weight:300;color:var(--ink-dim);max-width:38ch}
+.work__tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.work__tags span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);
+  border:1px solid var(--line);border-radius:999px;padding:5px 12px;white-space:nowrap}
+@media (max-width:880px){
+  .work__item{grid-template-columns:1fr;gap:10px;padding:26px 4px}
+  .work__idx{order:-1}
+  .work__tags{justify-content:flex-start}
+  .work__item:hover{padding-left:4px}
+}
+
+/* ---------- currently ---------- */
+.now{background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.now__grid{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,5vw,80px);align-items:start}
+.now__badge{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(255,90,38,.4);border-radius:999px;padding:10px 18px;white-space:nowrap}
+.now__badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.now__text{font-size:clamp(19px,2.4vw,30px);font-weight:300;line-height:1.45;max-width:30ch}
+.now__text strong{font-weight:500;color:var(--accent)}
+.now__sub{margin-top:18px;font-size:14px;color:var(--ink-dim);max-width:52ch;font-weight:300}
+@media (max-width:720px){.now__grid{grid-template-columns:1fr}}
+
+/* ---------- contact ---------- */
+.contact{min-height:80svh;display:flex;flex-direction:column;justify-content:center;text-align:center;overflow:hidden}
+.contact__kicker{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:26px}
+.contact__big{font-family:var(--display);font-weight:800;text-transform:uppercase;line-height:.95;letter-spacing:-.02em;
+  font-size:clamp(36px,6.2vw,110px)}
+.contact__big a{position:relative;display:inline-block;transition:color .3s}
+.contact__big a:hover{color:var(--accent)}
+.contact__big .accent{color:var(--accent)}
+.contact__mail{display:inline-block;margin-top:40px;font-size:clamp(15px,2vw,20px);color:var(--ink-dim);
+  border-bottom:1px solid var(--line);padding-bottom:6px;transition:color .3s,border-color .3s}
+.contact__mail:hover{color:var(--accent);border-color:var(--accent)}
+
+/* ---------- footer ---------- */
+.footer{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+  padding:26px clamp(20px,4vw,56px);border-top:1px solid var(--line);
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+.footer a{transition:color .3s}
+.footer a:hover{color:var(--accent)}
+
+/* ---------- reveal defaults (no-JS safe) ---------- */
+[data-reveal]{opacity:1}
+.js [data-reveal]{opacity:0;transform:translateY(44px)}
+.js .hero__title .line span{transform:translateY(110%)}
+
+@media (prefers-reduced-motion:reduce){
+  .grain,.marquee__track{animation:none}
+  .js [data-reveal]{opacity:1;transform:none}
+  .js .hero__title .line span{transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="cursor" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav__logo" href="#top">EA</a>
+  <div class="nav__links">
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero__sky"></div>
+  <canvas id="terrain"></canvas>
+  <div class="hero__fade"></div>
+
+  <div class="hero__scroll">Scroll</div>
+
+  <div class="hero__content">
+    <p class="hero__eyebrow">Computer Science — Texas Tech University</p>
+    <h1 class="hero__title">
+      <span class="line"><span>Emmanuel</span></span>
+      <span class="line"><span class="accent">Ademola</span></span>
+    </h1>
+    <div class="hero__meta">
+      <p class="hero__tag">I build software that pays attention — an <strong>AI DJ that reads the landscape</strong>, security tooling that <strong>catches every attack thrown at it</strong>, and models that tell humans from machines.</p>
+      <p class="hero__loc">Lubbock, Texas<br>33.5779&deg; N / 101.8552&deg; W</p>
+    </div>
+  </div>
+</header>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <div class="marquee__inner">
+      <span>Cybersecurity</span><i>/</i><span>Full-Stack</span><i>/</i><span>Machine Learning</span><i>/</i><span>iOS</span><i>/</i><span>Threat Detection</span><i>/</i><span>API Design</span><i>/</i>
+    </div>
+    <div class="marquee__inner">
+      <span>Cybersecurity</span><i>/</i><span>Full-Stack</span><i>/</i><span>Machine Learning</span><i>/</i><span>iOS</span><i>/</i><span>Threat Detection</span><i>/</i><span>API Design</span><i>/</i>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="section__head" data-reveal>
+      <span class="section__num">01</span>
+      <h2 class="section__title">About</h2>
+    </div>
+    <div class="about__grid">
+      <div>
+        <p class="about__lede" data-reveal>Somewhere on US-84 between Dallas and Lubbock — past the wind farms and the oil wells — I started building software inspired by <em>what the road looks like</em>.</p>
+        <div class="about__body" data-reveal>
+          <p>I am a computer science student at Texas Tech with a wide appetite: backend systems, iOS, machine learning, and a growing obsession with cybersecurity. I learn by shipping — real apps, real APIs, real attack simulations against my own code.</p>
+          <p>Right now that means hardening the things I build, training models that hold up under scrutiny, and working toward a career in cyber defense.</p>
+        </div>
+      </div>
+      <div class="stats" data-reveal>
+        <div class="stat"><div class="stat__num" data-count="11">0</div><div class="stat__label">of 11 attacks detected</div></div>
+        <div class="stat"><div class="stat__num"><span data-count="98.6" data-decimals="1">0</span><sup>%</sup></div><div class="stat__label">best model accuracy</div></div>
+        <div class="stat"><div class="stat__num" data-count="6">0</div><div class="stat__label">ML models trained</div></div>
+        <div class="stat"><div class="stat__num" data-count="5">0</div><div class="stat__label">projects shipped</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="section work" id="work">
+  <div class="wrap">
+    <div class="section__head" data-reveal>
+      <span class="section__num">02</span>
+      <h2 class="section__title">Selected Work</h2>
+    </div>
+    <div class="work__list">
+      <article class="work__item" data-reveal>
+        <span class="work__idx">001</span>
+        <h3 class="work__name">Journey</h3>
+        <p class="work__desc">An AI DJ for the open road. Reads GPS and the surrounding landscape, then curates Spotify in real time as the scenery changes.</p>
+        <div class="work__tags"><span>SwiftUI</span><span>Node.js</span><span>Spotify API</span><span>WidgetKit</span></div>
+      </article>
+      <article class="work__item" data-reveal>
+        <span class="work__idx">002</span>
+        <h3 class="work__name">Journey Security Audit</h3>
+        <p class="work__desc">Log analyzer and attack simulator built against my own backend. Eleven simulated attacks, eleven detections.</p>
+        <div class="work__tags"><span>Threat Detection</span><span>Log Analysis</span><span>Node.js</span></div>
+      </article>
+      <article class="work__item" data-reveal>
+        <span class="work__idx">003</span>
+        <h3 class="work__name">AI Text Detector</h3>
+        <p class="work__desc">Human or machine? Six trained models that tell the difference — the best of them right 98.6 percent of the time.</p>
+        <div class="work__tags"><span>Python</span><span>scikit-learn</span><span>NLP</span></div>
+      </article>
+      <article class="work__item" data-reveal>
+        <span class="work__idx">004</span>
+        <h3 class="work__name">SocialLift</h3>
+        <p class="work__desc">A social fitness web app — share workouts, lift each other up. Full stack with a MySQL core.</p>
+        <div class="work__tags"><span>Full-Stack</span><span>MySQL</span><span>Web</span></div>
+      </article>
+      <article class="work__item" data-reveal>
+        <span class="work__idx">005</span>
+        <h3 class="work__name">TA Assignment System</h3>
+        <p class="work__desc">Matching teaching assistants to courses for Texas Tech — FastAPI backend with a university-styled frontend.</p>
+        <div class="work__tags"><span>FastAPI</span><span>Python</span><span>SQL</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CURRENTLY -->
+<section class="section now">
+  <div class="wrap">
+    <div class="now__grid">
+      <span class="now__badge" data-reveal>Currently</span>
+      <div data-reveal>
+        <p class="now__text">Working toward a career in <strong>cyber defense</strong> — building the portfolio, the credentials, and the instincts to protect systems that matter.</p>
+        <p class="now__sub">Pursuing the DoD Cyber Apprenticeship path, stacking hands-on security projects, and choosing experience over everything else.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact" id="contact">
+  <p class="contact__kicker" data-reveal>Open to internships, apprenticeships, and good problems</p>
+  <h2 class="contact__big" data-reveal>
+    Let&rsquo;s build<br>something <a class="accent" href="mailto:emmanuelademolabuisness@gmail.com">together</a>
+  </h2>
+  <div data-reveal>
+    <a class="contact__mail" href="mailto:emmanuelademolabuisness@gmail.com">emmanuelademolabuisness@gmail.com</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <span>&copy; 2026 Emmanuel Ademola</span>
+  <a href="https://github.com/Nomenclayturr" target="_blank" rel="noopener">GitHub</a>
+  <span>Lubbock, TX — <span id="localtime"></span></span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+
+<script>
+document.documentElement.classList.add('js');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- fit hero name edge-to-edge ---------- */
+function fitHeroLines(){
+  document.querySelectorAll('.hero__title .line').forEach(line => {
+    const span = line.firstElementChild;
+    span.style.fontSize = '100px';
+    const ratio = line.clientWidth / span.scrollWidth;
+    span.style.fontSize = (100 * ratio * 0.99) + 'px';
+  });
+}
+fitHeroLines();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitHeroLines);
+window.addEventListener('resize', fitHeroLines);
+
+/* ---------- local time ---------- */
+function tickClock(){
+  const el = document.getElementById('localtime');
+  if (el) el.textContent = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',timeZone:'America/Chicago'});
+}
+tickClock(); setInterval(tickClock, 30000);
+
+/* ---------- cursor ---------- */
+const cursor = document.querySelector('.cursor');
+if (window.matchMedia('(pointer:fine)').matches){
+  let cx = -100, cy = -100, tx = -100, ty = -100;
+  window.addEventListener('pointermove', e => { tx = e.clientX; ty = e.clientY; });
+  (function moveCursor(){
+    cx += (tx - cx) * 0.18; cy += (ty - cy) * 0.18;
+    cursor.style.transform = `translate(${cx}px,${cy}px) translate(-50%,-50%)`;
+    requestAnimationFrame(moveCursor);
+  })();
+  document.querySelectorAll('a, .work__item').forEach(el => {
+    el.addEventListener('pointerenter', () => cursor.classList.add('is-hover'));
+    el.addEventListener('pointerleave', () => cursor.classList.remove('is-hover'));
+  });
+}
+
+/* ---------- GSAP ---------- */
+if (window.gsap){
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (!reduceMotion){
+    // hero entrance
+    gsap.set('.hero__title .line span', {transform:'none', yPercent:110});
+    gsap.timeline({defaults:{ease:'power4.out'}, delay:0.2})
+      .to('.hero__title .line span', {yPercent:0, duration:1.2, stagger:0.12})
+      .from('.hero__eyebrow', {opacity:0, x:-30, duration:0.8}, '-=0.8')
+      .from('.hero__meta',    {opacity:0, y:30,  duration:0.8}, '-=0.6')
+      .from('.hero__scroll',  {opacity:0, duration:0.8}, '-=0.4');
+
+    // hero parallax out
+    gsap.to('.hero__content', {
+      yPercent:-12, opacity:0.25, ease:'none',
+      scrollTrigger:{trigger:'.hero', start:'bottom 92%', end:'bottom 30%', scrub:true}
+    });
+
+    // generic reveals
+    gsap.utils.toArray('[data-reveal]').forEach(el => {
+      gsap.to(el, {opacity:1, y:0, duration:1, ease:'power3.out',
+        scrollTrigger:{trigger:el, start:'top 88%'}});
+    });
+
+    // stat counters
+    gsap.utils.toArray('[data-count]').forEach(el => {
+      const end = parseFloat(el.dataset.count);
+      const dec = parseInt(el.dataset.decimals || '0', 10);
+      const obj = {v:0};
+      gsap.to(obj, {v:end, duration:1.6, ease:'power2.out',
+        scrollTrigger:{trigger:el, start:'top 90%'},
+        onUpdate(){ el.textContent = obj.v.toFixed(dec); }});
+    });
+  } else {
+    gsap.set('[data-reveal]', {opacity:1, y:0});
+    document.querySelectorAll('[data-count]').forEach(el => {
+      el.textContent = parseFloat(el.dataset.count).toFixed(parseInt(el.dataset.decimals || '0', 10));
+    });
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+
+const canvas = document.getElementById('terrain');
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = window.matchMedia('(max-width: 760px)').matches;
+
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0x0b0a08, 5, 30);
+
+const camera = new THREE.PerspectiveCamera(62, 1, 0.1, 100);
+camera.position.set(0, 2.4, 10);
+camera.lookAt(0, 0.6, 0);
+
+// rolling-plains wireframe terrain
+const SEG = isMobile ? 64 : 110;
+const geo = new THREE.PlaneGeometry(70, 70, SEG, SEG);
+geo.rotateX(-Math.PI / 2);
+const basePos = geo.attributes.position.array.slice();
+
+const mat = new THREE.MeshBasicMaterial({color:0xff5a26, wireframe:true, transparent:true, opacity:0.42, fog:true});
+const terrain = new THREE.Mesh(geo, mat);
+scene.add(terrain);
+
+// sparse stars above the horizon
+const starCount = isMobile ? 120 : 260;
+const starPos = new Float32Array(starCount * 3);
+for (let i = 0; i < starCount; i++){
+  starPos[i*3]   = (Math.random() - 0.5) * 80;
+  starPos[i*3+1] = 6 + Math.random() * 22;
+  starPos[i*3+2] = -10 - Math.random() * 40;
+}
+const starGeo = new THREE.BufferGeometry();
+starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({color:0xece7df, size:0.07, transparent:true, opacity:0.7, fog:false}));
+scene.add(stars);
+
+function height(x, z, t){
+  return Math.sin(x * 0.16 + t * 0.35) * 0.85
+       + Math.sin(z * 0.20 + t * 0.25) * 0.65
+       + Math.sin((x + z) * 0.10 - t * 0.18) * 0.5
+       + Math.sin(x * 0.42 + z * 0.31 + t * 0.5) * 0.22;
+}
+
+let mouseX = 0;
+window.addEventListener('pointermove', e => {
+  mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+}, {passive:true});
+
+function resize(){
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (canvas.width !== Math.floor(w * renderer.getPixelRatio()) || canvas.height !== Math.floor(h * renderer.getPixelRatio())){
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+}
+window.addEventListener('resize', resize);
+
+const pos = geo.attributes.position;
+let heroVisible = true;
+new IntersectionObserver(entries => { heroVisible = entries[0].isIntersecting; }, {threshold:0})
+  .observe(document.querySelector('.hero'));
+
+function frame(ms){
+  requestAnimationFrame(frame);
+  if (!heroVisible) return;
+  resize();
+  const t = reduce ? 0 : ms * 0.001;
+  for (let i = 0; i < pos.count; i++){
+    const x = basePos[i*3], z = basePos[i*3+2];
+    pos.array[i*3+1] = height(x, z, t);
+  }
+  pos.needsUpdate = true;
+  camera.position.x += ((mouseX * 0.9) - camera.position.x) * 0.03;
+  camera.lookAt(0, 0.6, 0);
+  renderer.render(scene, camera);
+}
+requestAnimationFrame(frame);
+</script>
+
+</body>
+</html>
