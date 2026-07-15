@@ -1,5 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#0b0a08"/>
-  <rect width="64" height="64" rx="14" fill="none" stroke="#ff5a26" stroke-opacity=".25" stroke-width="2"/>
-  <text x="32" y="43" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-weight="800" font-size="28" letter-spacing="-0.5" fill="#ff5a26" text-anchor="middle">EA</text>
+  <rect width="64" height="64" rx="14" fill="#161616"/>
+  <g stroke="#d9ff43" stroke-width="6" stroke-linecap="round" transform="rotate(-12 32 32)">
+    <line x1="32" y1="12" x2="32" y2="52"/>
+    <line x1="12" y1="32" x2="52" y2="32"/>
+    <line x1="18" y1="18" x2="46" y2="46"/>
+    <line x1="46" y1="18" x2="18" y2="46"/>
+  </g>
 </svg>
